@@ -1,5 +1,5 @@
 import { CronJob } from "cron";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import axios from "axios";
 import { bot, botStatusMsgId } from "../transport/telegram";
 dotenv.config();
@@ -20,7 +20,7 @@ export const job = new CronJob(
           `bot is up ${time}`
         );
       }
-      const rs = { status: 300 }; //await axios.get(process.env.HEALTH_ENDPOINT!);
+      const rs = await axios.get(process.env.HEALTH_ENDPOINT!);
       if (!healthy && rs.status >= 200 && rs.status < 300) {
         await bot.telegram.sendMessage(
           process.env.TG_CHANNEL_ID!,
@@ -30,10 +30,7 @@ export const job = new CronJob(
       }
     } catch (e) {
       await bot.telegram
-        .sendMessage(
-          process.env.TG_CHANNEL_ID!,
-          "Backend Server Status : ❌"
-        )
+        .sendMessage(process.env.TG_CHANNEL_ID!, "Backend Server Status : ❌")
         .catch();
       console.log(e);
     }

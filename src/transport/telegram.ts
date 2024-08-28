@@ -1,5 +1,5 @@
 import { Telegraf } from "telegraf";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 dotenv.config();
 let botStatusMsgId: number;
 const bot = new Telegraf(process.env.TG_BOT_TOKEN!);

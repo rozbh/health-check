@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ."
+    "start:dev": "ts-node .",
+    "start": "node dist/index.js",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,7 @@
     "dotenv": "^16.4.5",
     "i": "^0.3.7",
     "npm": "^10.8.2",
-    "telegraf": "^4.16.3"
+    "telegraf": "^4.16.3",
+    "typescript": "^5.5.4"
   }
 }

@@ -32,6 +32,7 @@ export const job = new CronJob(
       await bot.telegram
         .sendMessage(process.env.TG_CHANNEL_ID!, "Backend Server Status : ❌")
         .catch();
+      healthy = false;
       console.log(e);
     }
   },

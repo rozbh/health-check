@@ -2,6 +2,7 @@ import { CronJob } from "cron";
 import * as dotenv from "dotenv";
 import axios from "axios";
 import { bot, botStatusMsgId } from "../transport/telegram";
+import { logger } from "../config/winston";
 dotenv.config();
 let healthy: boolean = false;
 
@@ -11,8 +12,6 @@ export const job = new CronJob(
     try {
       if (!!botStatusMsgId == true) {
         const time = new Date().toUTCString();
-        console.log(time);
-
         await bot.telegram.editMessageText(
           process.env.TG_CHANNEL_ID!,
           botStatusMsgId,
@@ -31,9 +30,11 @@ export const job = new CronJob(
     } catch (e) {
       await bot.telegram
         .sendMessage(process.env.TG_CHANNEL_ID!, "Backend Server Status : ❌")
-        .catch();
+        .catch((e) => {
+          logger.error(e);
+        });
       healthy = false;
-      console.log(e);
+      logger.error(e);
     }
   },
   null, // onComplete
